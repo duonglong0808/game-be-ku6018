@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        p {
+            color: #666;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .footer {
+            background-color: #f2f2f2;
+            padding: 20px;
+            text-align: center;
+            margin-top: 30px;
+        }
+        .signature {
+            font-style: italic;
+            color: #666;
+        }
+        .signature img {
+            width: 100px; /* Điều chỉnh kích thước ảnh tùy thích */
+            display: block;
+            margin: 0 auto 10px; /* Canh chỉnh ảnh vào giữa và tạo khoảng cách dưới ảnh */
+            border-radius: 50%; /* Làm tròn góc ảnh */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ heading }}</h1>
+        <p>{{ message }}</p>
+        {{!-- <p><a href="{{ link  }}" class="button">{{ buttonLabel }}</a></p> --}}
+    </div>
+    <div class="footer">
+        <p class="signature">
+            {{!-- <img src="{{ signerImage }}" alt="Signer Image"> <br> --}}
+            Trân trọng,<br>
+            <strong>{{ signerName }}</strong><br>
+            M. <a href="tel:{{ signerPhone }}">{{ signerPhone }}</a><br>
+            E. <a href="mailto:{{ signerEmail }}">{{ signerEmail }}</a><br>
+            {{ signerCompany }}<br>
+            {{ signerAddress }}<br>
+            <a href="{{ signerWebsite }}">{{ signerWebsite }}</a>
+        </p>
+    </div>
+</body>
+</html>
