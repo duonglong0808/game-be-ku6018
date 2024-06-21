@@ -61,10 +61,11 @@ export class UserPointService {
   }
 
   async findByGame(userId: number, slug: string) {
-    const { id } = await this.gamePointService.findOneBySlugAndSaveRedis(slug);
-    const gamePoint = await this.userPointRepository.findOneByCondition({ gamePointId: id, userId }, ['points']);
+    const [game, user] = await Promise.all([this.gamePointService.findOneBySlugAndSaveRedis(slug), this.userService.findOne(userId)]);
+    const [gamePoint, mainPoint] = await Promise.all([this.userPointRepository.findOneByCondition({ gamePointId: game.id, userId }, ['points']), this.ku6018Service.GetPointMain(user.username)]);
     return {
-      gamePoint,
+      gamePoint: gamePoint || 0,
+      mainPoint: mainPoint?.data || 0,
     };
   }
 

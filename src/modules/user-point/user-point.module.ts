@@ -8,6 +8,7 @@ import { RedisModule } from '../cache/redis.module';
 import { Ku6018Module } from '../ku6018/ku6018.module';
 import { Ku6018Service } from '../ku6018/ku6018.service';
 import { UserModule } from '../user/user.module';
+import { UserPointController } from './user-point.controller';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { UserModule } from '../user/user.module';
     GamePointModule,
     SequelizeModule.forFeature([UserPointModel]),
   ],
+  controllers: [UserPointController],
   providers: [
     UserPointService,
     {

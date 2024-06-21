@@ -47,7 +47,7 @@ export class UserService {
   }
 
   async create(dto: CreateUserDto, checkCode?: boolean) {
-    dto.username = dto.username.trim().toLowerCase();
+    dto.username = dto.username.trim();
     if (+dto.phone.split('')[0] == 0) dto.phone = dto.phone.slice(1);
     // if (checkCode) {
     //   const keyRedis = `create-account:code:${dto.phone}`;

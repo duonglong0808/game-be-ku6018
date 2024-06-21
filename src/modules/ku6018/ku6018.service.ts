@@ -29,4 +29,9 @@ export class Ku6018Service {
       };
     }
   }
+
+  async GetPointMain(username: string) {
+    const res = await this.httpService.axiosRef.get(`${process.env.API_KU6018}/api/getMoneyMain?token=${process.env.TOKE_API_KU6018}&username=${username}`);
+    return res.data;
+  }
 }

@@ -22,6 +22,7 @@ import { BaccaratModule } from './modules/baccarat/baccarat.module';
 import { BaccaratDetailModule } from './modules/baccarat-detail/baccarat-detail.module';
 import { BullQueueModule } from './modules/bull-queue/bull-queue.module';
 import { GamePointModule } from './modules/game-point/game-point.module';
+import { UserPointModule } from './modules/user-point/user-point.module';
 
 console.log(__dirname);
 @Module({
@@ -88,6 +89,7 @@ console.log(__dirname);
     // BullQueueAddQueueModule,
     GamePointModule,
     BaccaratDetailModule,
+    UserPointModule,
   ],
   providers: [
     //
