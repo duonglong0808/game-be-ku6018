@@ -14,6 +14,7 @@ export interface DataJobCalcPointBaccarat {
 }
 
 export interface DataJobAddPointToUser {
+  historyId: number;
   userId: number;
   gamePointId: number;
   points: number;

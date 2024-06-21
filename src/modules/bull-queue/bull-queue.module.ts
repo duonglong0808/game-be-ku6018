@@ -18,6 +18,8 @@ import { BaccaratDetailService } from '../baccarat-detail/baccarat-detail.servic
 import { GameDiceModule } from '../dice/dice.module';
 import { BaccaratDetailModule } from '../baccarat-detail/baccarat-detail.module';
 import { BaccaratModule } from '../baccarat/baccarat.module';
+import { Ku6018Module } from '../ku6018/ku6018.module';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
@@ -71,6 +73,8 @@ import { BaccaratModule } from '../baccarat/baccarat.module';
     GamePointModule,
     GameDiceModule,
     BaccaratModule,
+    Ku6018Module,
+    UserModule,
     forwardRef(() => DiceDetailModule),
     forwardRef(() => BaccaratDetailModule),
   ],

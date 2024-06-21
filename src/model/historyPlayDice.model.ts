@@ -1,7 +1,7 @@
 import { BeforeCount, BeforeFind, BelongsTo, Column, ForeignKey, Model, Table } from 'sequelize-typescript';
 import { DataType } from 'sequelize-typescript';
 import { DiceDetailModel, GameDiceModel, addConditionNotDelete } from '.';
-import { StatusHistoryPlayGame } from 'src/constants';
+import { StatusHistoryPlayGame, TypeUpdatePointUser } from 'src/constants';
 
 @Table({
   tableName: 'HistoryPlayDices',
@@ -29,6 +29,9 @@ export class HistoryPlayDiceModel extends Model {
 
   @Column({ type: DataType.INTEGER, defaultValue: StatusHistoryPlayGame.wait })
   status: number;
+
+  @Column({ type: DataType.INTEGER, defaultValue: TypeUpdatePointUser.down })
+  result: number;
 
   @ForeignKey(() => GameDiceModel)
   @Column

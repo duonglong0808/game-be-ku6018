@@ -108,4 +108,13 @@ export const pointPoker = {
   K: 0,
 };
 
+export const CodeApiKu6018 = {
+  0: 'Thành công',
+  1: 'Thiếu Parameter',
+  2: 'Sai token',
+  3: 'Không tìm thấy thành viên',
+  4: 'Lỗi không xác định',
+  5: 'Lỗi không đủ số dư',
+};
+
 export * from './message';

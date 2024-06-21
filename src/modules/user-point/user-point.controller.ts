@@ -1,8 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus, Req, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus, Req, Query, UseGuards } from '@nestjs/common';
 import { UserPointService } from './user-point.service';
-import { MovePointToGameOtherDto } from './dto/update-user-point.dto';
+import { AddPointToGameDto } from './dto/update-user-point.dto';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { ApiOperationCustom, BaseFilter } from 'src/custom-decorator';
+import { Public } from '../auth/decorators';
+import { AddPointToUserGuard } from '../auth/guards/add-point-user.guard';
+import { TypeUpdatePointUser } from 'src/constants';
 
 @ApiTags('User Point')
 @Controller('user-point')
@@ -26,16 +29,25 @@ export class UserPointController {
     return this.userPointService.findByGame(userId, slug);
   }
 
-  // @Post('')
-  // @ApiOperationCustom('User Point', 'POST')
-  // async updatePoint(@Req() req: any, @Body() dto: MovePointToGameOtherDto) {
-  //   try {
-  //     const user = req['user'];
-  //     const userId = user?.id;
-  //     dto.userId = userId;
-  //     return await this.userPointService.updatePoint(dto);
-  //   } catch (error) {
-  //     throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-  //   }
-  // }
+  @Post('')
+  @Public()
+  @UseGuards(AddPointToUserGuard)
+  @ApiOperationCustom('User Point', 'POST')
+  async updatePoint(@Body() dto: AddPointToGameDto) {
+    try {
+      return await this.userPointService.addPointOrDeductToGameByName(dto);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Patch('')
+  @ApiOperationCustom('Move User Point to main', 'POST')
+  async movePoint(@Body() dto: AddPointToGameDto) {
+    try {
+      return await this.userPointService.addPointOrDeductToGameByName(dto);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
 }

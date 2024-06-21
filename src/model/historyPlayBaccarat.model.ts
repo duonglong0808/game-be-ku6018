@@ -33,6 +33,9 @@ export class HistoryPlayBaccaratModel extends Model {
   @Column({ type: DataType.INTEGER, defaultValue: StatusHistoryPlayGame.wait })
   status: number;
 
+  @Column({ type: DataType.INTEGER })
+  result: number;
+
   @ForeignKey(() => GameBaccaratModel)
   @Column
   gameBaccaratId: number;

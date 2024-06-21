@@ -69,7 +69,7 @@ export class HistoryPlayService {
 
   async checkBalanceAndDeductPoint(slug: string, userId: number, points: number): Promise<number> {
     const gamePoint = await this.gamePointService.findOneBySlugAndSaveRedis(slug);
-    const deductPoint = await this.userPointService.deductPointByUser(userId, gamePoint.id, points);
+    const deductPoint = await this.userPointService.deductPointGameByUser(userId, gamePoint.id, points);
     if (deductPoint) return gamePoint.id;
     return null;
   }
@@ -131,8 +131,26 @@ export class HistoryPlayService {
     return this.historyPlayDiceRepository.updateMany({ diceDetailId }, { status: status });
   }
 
+  updateResultByDiceDetailId(
+    data: {
+      type: number;
+      historyId: number;
+    }[],
+  ) {
+    return Promise.all(data.map((item) => this.historyPlayDiceRepository.findByIdAndUpdate(item.historyId, { result: item.type })));
+  }
+
   updateStatusByBaccaratDetailId(baccaratDetailId: number, status: number) {
     return this.historyPlayBaccaratRepository.updateMany({ baccaratDetailId }, { status: status });
+  }
+
+  updateResultByBaccaratDetailId(
+    data: {
+      type: number;
+      historyId: number;
+    }[],
+  ) {
+    return Promise.all(data.map((item) => this.historyPlayDiceRepository.findByIdAndUpdate(item.historyId, { result: item.type })));
   }
 
   update(id: number, dto: any) {

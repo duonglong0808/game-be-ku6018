@@ -10,11 +10,16 @@ import { GamePointModule } from '../game-point/game-point.module';
 import { GamePointService } from '../game-point/game-point.service';
 import { HistoryPlayBaccaratModel, HistoryPlayDiceModel } from 'src/model';
 import { HistoryPlayBaccaratRepository } from './repository/history-play-baccarat.repository';
+import { Ku6018Module } from '../ku6018/ku6018.module';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
     //
+
     SequelizeModule.forFeature([HistoryPlayDiceModel, HistoryPlayBaccaratModel]),
+    UserModule,
+    Ku6018Module,
     UserPointModule,
     GamePointModule,
   ],

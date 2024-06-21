@@ -42,8 +42,11 @@ export const messageResponse = {
   historyPlay: {
     transactionIsFinished: 'transaction_is_finished',
     positionHasChoice: 'position_has_choice',
-    outsideBettingTime: 'outside_betting_time',
     accountNotHaveEnoughPoints: 'account_not_have_enough_points',
+    outsideBettingTime: 'outside_betting_time',
     cannotChooseAnswer: 'cannot_choose_answer',
+  },
+  userPoint: {
+    accountNotHaveEnoughPoints: 'account_not_have_enough_points',
   },
 };

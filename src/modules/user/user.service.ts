@@ -91,6 +91,10 @@ export class UserService {
     return this, this.userModel.findOne({ where: { id }, attributes: ['id', 'email', 'username', 'name', 'phone', 'status', 'avatar'] });
   }
 
+  findOneByUsername(username: string) {
+    return this, this.userModel.findOne({ where: { username }, attributes: ['id', 'email', 'username', 'name'] });
+  }
+
   checkExist(id: number) {
     return this.userModel.count({ where: { id } });
   }

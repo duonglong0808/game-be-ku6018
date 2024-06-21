@@ -33,6 +33,7 @@ export class BullQueueConsumerServiceCalcPointDice {
           if (user) user.points += Math.ceil(points);
           else
             dataUserUpPoint.push({
+              historyId: userAnswer.id,
               gamePointId: userAnswer.gamePointId,
               userId: userAnswer.userId,
               points,
@@ -44,6 +45,7 @@ export class BullQueueConsumerServiceCalcPointDice {
           if (user) user.points += Math.ceil(points);
           else
             dataUserUpPoint.push({
+              historyId: userAnswer.id,
               gamePointId: userAnswer.gamePointId,
               userId: userAnswer.userId,
               points,
@@ -55,6 +57,7 @@ export class BullQueueConsumerServiceCalcPointDice {
           if (user) user.points += Math.ceil(points);
           else
             dataUserUpPoint.push({
+              historyId: userAnswer.id,
               gamePointId: userAnswer.gamePointId,
               userId: userAnswer.userId,
               points,
@@ -71,6 +74,7 @@ export class BullQueueConsumerServiceCalcPointDice {
           if (user) user.points += Math.ceil(points);
           else
             dataUserUpPoint.push({
+              historyId: userAnswer.id,
               gamePointId: userAnswer.gamePointId,
               userId: userAnswer.userId,
               points,
@@ -82,6 +86,7 @@ export class BullQueueConsumerServiceCalcPointDice {
           if (user) user.points += Math.ceil(points);
           else
             dataUserUpPoint.push({
+              historyId: userAnswer.id,
               gamePointId: userAnswer.gamePointId,
               userId: userAnswer.userId,
               points,
@@ -97,6 +102,7 @@ export class BullQueueConsumerServiceCalcPointDice {
           if (user) user.points += Math.ceil(points);
           else
             dataUserUpPoint.push({
+              historyId: userAnswer.id,
               gamePointId: userAnswer.gamePointId,
               userId: userAnswer.userId,
               points,
@@ -114,6 +120,7 @@ export class BullQueueConsumerServiceCalcPointDice {
           if (user) user.points += Math.ceil(points);
           else
             dataUserUpPoint.push({
+              historyId: userAnswer.id,
               gamePointId: userAnswer.gamePointId,
               userId: userAnswer.userId,
               points,
@@ -131,6 +138,7 @@ export class BullQueueConsumerServiceCalcPointDice {
           if (user) user.points += Math.ceil(points);
           else
             dataUserUpPoint.push({
+              historyId: userAnswer.id,
               gamePointId: userAnswer.gamePointId,
               userId: userAnswer.userId,
               points,
@@ -148,6 +156,7 @@ export class BullQueueConsumerServiceCalcPointDice {
           if (user) user.points += Math.ceil(points);
           else
             dataUserUpPoint.push({
+              historyId: userAnswer.id,
               gamePointId: userAnswer.gamePointId,
               userId: userAnswer.userId,
               points,
@@ -165,6 +174,7 @@ export class BullQueueConsumerServiceCalcPointDice {
           if (user) user.points += Math.ceil(points);
           else
             dataUserUpPoint.push({
+              historyId: userAnswer.id,
               gamePointId: userAnswer.gamePointId,
               userId: userAnswer.userId,
               points,
@@ -182,6 +192,7 @@ export class BullQueueConsumerServiceCalcPointDice {
           if (user) user.points += Math.ceil(points);
           else
             dataUserUpPoint.push({
+              historyId: userAnswer.id,
               gamePointId: userAnswer.gamePointId,
               userId: userAnswer.userId,
               points,
@@ -199,7 +210,8 @@ export class BullQueueConsumerServiceCalcPointDice {
       console.log('🚀 ~ BullQueueConsumerServiceCalcPointDice ~ calcPointDice ~ totalReward:', totalReward);
       this.diceDetailService.updateDataBetAndReward(data.diceDetailId, totalBet, totalReward);
     }
-    this.historyPlayService.updateStatusByDiceDetailId(data.diceDetailId, 1);
+    await this.historyPlayService.updateStatusByDiceDetailId(data.diceDetailId, 1);
+    this.historyPlayService.updateResultByDiceDetailId(dataUserUpPoint);
     return this.updatePointUserAndSendWs(dataUserUpPoint);
   }
 
@@ -239,6 +251,7 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
           if (user) user.points += Math.ceil(points);
           else
             dataUserUpPoint.push({
+              historyId: userAnswer.id,
               gamePointId: userAnswer.gamePointId,
               userId: userAnswer.userId,
               points,
@@ -293,6 +306,7 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
         if (user) user.points += Math.ceil(points);
         else {
           dataUserUpPoint.push({
+            historyId: userAnswer.id,
             gamePointId: userAnswer.gamePointId,
             userId: userAnswer.userId,
             points,
@@ -354,6 +368,7 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
         if (user) user.points += Math.ceil(points);
         else {
           dataUserUpPoint.push({
+            historyId: userAnswer.id,
             gamePointId: userAnswer.gamePointId,
             userId: userAnswer.userId,
             points,
@@ -377,6 +392,7 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
         if (user) user.points += Math.ceil(points);
         else {
           dataUserUpPoint.push({
+            historyId: userAnswer.id,
             gamePointId: userAnswer.gamePointId,
             userId: userAnswer.userId,
             points,
@@ -395,7 +411,8 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
       this.baccaratDetailService.updateDataBetAndReward(baccaratDetailId, totalBet, totalReward);
     }
     console.log('🚀 ~ BullQueueConsumerServiceCalcPointBaccarat ~ calcPointDice ~ dataUserUpPoint:', dataUserUpPoint);
-    this.historyPlayService.updateStatusByBaccaratDetailId(baccaratDetailId, 1);
+    await this.historyPlayService.updateStatusByBaccaratDetailId(baccaratDetailId, 1);
+    this.historyPlayService.updateResultByBaccaratDetailId(dataUserUpPoint);
     return this.updatePointUserAndSendWs(dataUserUpPoint);
   }
 
