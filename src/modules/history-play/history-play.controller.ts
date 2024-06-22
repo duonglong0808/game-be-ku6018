@@ -4,6 +4,7 @@ import { CreateHistoryPlayDto } from './dto/create-history-play.dto';
 import { UpdateHistoryPlayDto } from './dto/update-history-play.dto';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { ApiOperationCustom } from 'src/custom-decorator';
+import { Public } from '../auth/decorators';
 
 @ApiTags('History Play')
 @Controller('history-play')
@@ -45,6 +46,10 @@ export class HistoryPlayController {
     type: Date,
   })
   @ApiQuery({
+    name: 'game',
+    type: String,
+  })
+  @ApiQuery({
     name: 'sort',
     type: String,
   })
@@ -52,6 +57,7 @@ export class HistoryPlayController {
     name: 'typeSort',
     type: String,
   })
+  @Public()
   findAll(@Req() req: any, @Query('userId') userId: number, @Query('game') game: string, @Query('gameDiceId') gameDiceId: number, @Query('diceDetailId') diceDetailId: number, @Query('gameBaccaratId') gameBaccaratId: number, @Query('baccaratDetailId') baccaratDetailId: number, @Query('dateForm') dateForm: Date, @Query('dateTo') dateTo: Date, @Query('sort') sort: string, @Query('typeSort') typeSort: string) {
     return this.historyPlayService.findAllCms(req['pagination'], game, diceDetailId, gameDiceId, baccaratDetailId, gameBaccaratId, userId, dateForm, dateTo, sort, typeSort);
   }

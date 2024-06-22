@@ -9,6 +9,7 @@ import { Op } from 'sequelize';
 import { UserPointService } from '../user-point/user-point.service';
 import { GamePointService } from '../game-point/game-point.service';
 import { HistoryPlayBaccaratRepositoryInterface } from './interface/history-play-baccarat.interface';
+import { UserModel } from 'src/model';
 
 @Injectable()
 export class HistoryPlayService {
@@ -109,7 +110,14 @@ export class HistoryPlayService {
         sort,
         typeSort,
         ...pagination,
-        projection: ['id', 'answer', 'point', 'status', 'gameDiceId', 'diceDetailId', 'userId', 'createdAt'],
+        projection: ['id', 'answer', 'point', 'status', 'gameDiceId', 'diceDetailId', 'result', 'createdAt'],
+        include: [
+          {
+            model: UserModel,
+            as: 'user',
+            attributes: ['id', 'username'], // Chỉ lấy ra id, username và email từ bảng user
+          },
+        ],
       });
     }
     if (game == 'mc-baccarat') {
@@ -121,6 +129,13 @@ export class HistoryPlayService {
         typeSort,
         ...pagination,
         projection: ['id', 'answer', 'point', 'status', 'gameDiceId', 'diceDetailId', 'userId', 'createdAt'],
+        include: [
+          {
+            model: UserModel,
+            as: 'user',
+            attributes: ['id', 'username', 'email'], // Chỉ lấy ra id, username và email từ bảng user
+          },
+        ],
       });
     }
 

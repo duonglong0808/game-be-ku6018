@@ -205,11 +205,11 @@ export class BullQueueConsumerServiceCalcPointDice {
     // calc total bet
     if (listUser.length) {
       const totalBet = listUser.reduce((pre, item) => pre + item.point, 0);
-      console.log('🚀 ~ BullQueueConsumerServiceCalcPointDice ~ calcPointDice ~ totalBet:', totalBet);
       const totalReward = dataUserUpPoint.reduce((pre, item) => pre + item.points, 0) || 0;
-      console.log('🚀 ~ BullQueueConsumerServiceCalcPointDice ~ calcPointDice ~ totalReward:', totalReward);
+      console.log('🚀 ~ BullQueueConsumerServiceCalcPointDice ~ calcPointDice ~ totalBet, totalReward:', totalBet, totalReward);
       this.diceDetailService.updateDataBetAndReward(data.diceDetailId, totalBet, totalReward);
     }
+    console.log('🚀 ~ BullQueueConsumerServiceCalcPointDice ~ calcPointDice ~ dataUserUpPoint:', dataUserUpPoint);
     await this.historyPlayService.updateStatusByDiceDetailId(data.diceDetailId, 1);
     this.historyPlayService.updateResultByDiceDetailId(dataUserUpPoint);
     return this.updatePointUserAndSendWs(dataUserUpPoint);

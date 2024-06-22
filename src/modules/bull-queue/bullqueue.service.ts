@@ -15,7 +15,7 @@ export class BullQueueService {
   ) {}
 
   async addToQueueCalcPointDice(data: DataJobCalcPointDice): Promise<any> {
-    // console.log('🚀 ~ BullQueueService ~ addToQueueCalcPointDice ~ data:', data);
+    console.log('🚀 ~ BullQueueService ~ addToQueueCalcPointDice ~ data:', data);
     return this.calcPointDiceQueue.add(data);
   }
 

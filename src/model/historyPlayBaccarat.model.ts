@@ -1,6 +1,6 @@
 import { BeforeCount, BeforeFind, BelongsTo, Column, ForeignKey, Model, Table } from 'sequelize-typescript';
 import { DataType } from 'sequelize-typescript';
-import { BaccaratDetailsModel, GameBaccaratModel, addConditionNotDelete } from '.';
+import { BaccaratDetailsModel, GameBaccaratModel, UserModel, addConditionNotDelete } from '.';
 import { StatusHistoryPlayGame } from 'src/constants';
 
 @Table({
@@ -15,8 +15,12 @@ export class HistoryPlayBaccaratModel extends Model {
   @Column({ type: DataType.INTEGER, primaryKey: true, autoIncrement: true })
   id: number;
 
+  @ForeignKey(() => UserModel)
   @Column({ type: DataType.INTEGER })
   userId: number;
+
+  @BelongsTo(() => UserModel)
+  user: UserModel;
 
   @Column({ type: DataType.INTEGER })
   gamePointId: number;

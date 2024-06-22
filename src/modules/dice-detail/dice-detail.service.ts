@@ -18,7 +18,7 @@ export class DiceDetailService {
     private readonly diceDetailRepository: DiceDetailRepositoryInterface,
     private readonly diceService: DiceService,
     private readonly cacheService: RedisService,
-    // private readonly bullQueueService: BullQueueService,
+    private readonly bullQueueService: BullQueueService,
     private readonly sendMessageWsService: SendMessageWsService,
   ) {}
 
@@ -151,7 +151,7 @@ export class DiceDetailService {
         await this.cacheService.set(key, StatusDiceDetail.check, 20);
         diceDetail.status = StatusDiceDetail.check;
         if (dto?.totalRed >= 0) diceDetail.totalRed = dto.totalRed;
-        // this.bullQueueService.addToQueueCalcPointDice({ diceDetailId: diceDetail.id, totalRed: diceDetail.totalRed, transactionId: diceDetail.transaction });
+        this.bullQueueService.addToQueueCalcPointDice({ diceDetailId: diceDetail.id, totalRed: diceDetail.totalRed, transactionId: diceDetail.transaction });
         break;
       case StatusDiceDetail.check:
         await this.cacheService.delete(key);
@@ -167,6 +167,7 @@ export class DiceDetailService {
 
     // Auto update and create new dice transaction
     const timeDelay = this.getTimeDelayQueueUpdateStatus(diceDetail.status);
+    console.log('🚀 ~ DiceDetailService ~ updateStatus ~ timeDelay:', timeDelay);
     if (timeDelay) {
       if (diceDetail.status == StatusDiceDetail.end) {
         const createDto: CreateGameDiceDetailDto = {
@@ -177,9 +178,9 @@ export class DiceDetailService {
           totalRed: null,
         };
         const newDiceDetail = await this.create(createDto);
-        // this.bullQueueService.addToQueueAutoUpdateStatusDice({ diceDetailId: newDiceDetail.id }, 5);
+        this.bullQueueService.addToQueueAutoUpdateStatusDice({ diceDetailId: newDiceDetail.id }, 5);
       } else {
-        // this.bullQueueService.addToQueueAutoUpdateStatusDice({ diceDetailId: diceDetail.id }, timeDelay);
+        this.bullQueueService.addToQueueAutoUpdateStatusDice({ diceDetailId: diceDetail.id }, timeDelay);
       }
     }
 
