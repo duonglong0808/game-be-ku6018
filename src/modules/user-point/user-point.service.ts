@@ -60,7 +60,16 @@ export class UserPointService {
     return dataRes;
   }
 
-  async findByGame(userId: number, slug: string) {
+  async findPOintByGame(username: string, game: string) {
+    const [gameByName, user] = await Promise.all([this.gamePointService.findOneBySlugAndSaveRedis(game), this.userService.findOneByUsername(username)]);
+    if (!gameByName || !user) throw new Error(messageResponse.system.dataInvalid);
+    const gamePoint = await this.userPointRepository.findOneByCondition({ gamePointId: gameByName.id, userId: user.id }, ['points']);
+    return {
+      gamePoint: gamePoint?.points || 0,
+    };
+  }
+
+  async findPointMainAndGame(userId: number, slug: string) {
     const [game, user] = await Promise.all([this.gamePointService.findOneBySlugAndSaveRedis(slug), this.userService.findOne(userId)]);
     const [gamePoint, mainPoint] = await Promise.all([this.userPointRepository.findOneByCondition({ gamePointId: game.id, userId }, ['points']), this.ku6018Service.GetPointMain(user.username)]);
     return {

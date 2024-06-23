@@ -12,21 +12,24 @@ import { TypeUpdatePointUser } from 'src/constants';
 export class UserPointController {
   constructor(private readonly userPointService: UserPointService) {}
 
-  @Get()
-  @BaseFilter()
-  @ApiOperationCustom('User Point all game', 'get')
-  findAll(@Req() req: any) {
-    const user = req['user'];
-    const userId = user?.id;
-    return this.userPointService.findAll(userId);
-  }
-
   @Get('game/:slug')
   @ApiOperationCustom('User Point Slug', 'get', true, true)
   findOne(@Req() req: any, @Param('slug') slug: string) {
     const user = req['user'];
     const userId = user?.id;
-    return this.userPointService.findByGame(userId, slug);
+    return this.userPointService.findPointMainAndGame(userId, slug);
+  }
+
+  @Get()
+  @Public()
+  @UseGuards(AddPointToUserGuard)
+  @ApiOperationCustom('User Point all game', 'get')
+  async findPointUser(@Query('username') username: string, @Query('game') game: string) {
+    try {
+      return await this.userPointService.findPOintByGame(username, game);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
   @Post('')
