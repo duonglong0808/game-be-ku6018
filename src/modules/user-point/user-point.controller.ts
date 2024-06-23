@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus, Req, Query, UseGuards } from '@nestjs/common';
 import { UserPointService } from './user-point.service';
-import { AddPointToGameDto } from './dto/update-user-point.dto';
+import { AddPointToGameDto, MovePointToMainOrGame } from './dto/update-user-point.dto';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { ApiOperationCustom, BaseFilter } from 'src/custom-decorator';
 import { Public } from '../auth/decorators';
@@ -41,11 +41,15 @@ export class UserPointController {
     }
   }
 
-  @Patch('')
+  @Patch('/')
   @ApiOperationCustom('Move User Point to main', 'POST')
-  async movePoint(@Body() dto: AddPointToGameDto) {
+  async MovePointToMainOrGame(@Body() dto: MovePointToMainOrGame) {
     try {
-      return await this.userPointService.addPointOrDeductToGameByName(dto);
+      // Chuyển về tk chính
+      if (dto.isToMain) {
+        return await this.userPointService.movePointGameToMain(dto);
+      }
+      return await this.userPointService.movePointMainToGame(dto);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }

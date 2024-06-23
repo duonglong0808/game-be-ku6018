@@ -7,7 +7,7 @@ import { GamePointService } from '../game-point/game-point.service';
 import { RedisService } from '../cache/redis.service';
 import { GamePointModel } from 'src/model';
 import { UserPointRepositoryInterface } from './interface/user-point.interface';
-import { AddPointToGameDto, MovePointToMain } from './dto/update-user-point.dto';
+import { AddPointToGameDto, MovePointToMainOrGame } from './dto/update-user-point.dto';
 import { Ku6018Service } from '../ku6018/ku6018.service';
 import { UserService } from '../user/user.service';
 
@@ -64,7 +64,7 @@ export class UserPointService {
     const [game, user] = await Promise.all([this.gamePointService.findOneBySlugAndSaveRedis(slug), this.userService.findOne(userId)]);
     const [gamePoint, mainPoint] = await Promise.all([this.userPointRepository.findOneByCondition({ gamePointId: game.id, userId }, ['points']), this.ku6018Service.GetPointMain(user.username)]);
     return {
-      gamePoint: gamePoint || 0,
+      gamePoint: gamePoint?.points || 0,
       mainPoint: mainPoint?.data || 0,
     };
   }
@@ -104,20 +104,46 @@ export class UserPointService {
     throw new Error('game_not_found');
   }
 
-  async movePointGameToMain(dto: MovePointToMain) {
+  async movePointGameToMain(dto: MovePointToMainOrGame) {
     if (!(dto.points > 0) || !dto.username || !dto.game) throw new Error(messageResponse.system.missingData);
     const [game, user] = await Promise.all([this.gamePointService.findOneBySlugAndSaveRedis(dto.game), this.userService.findOneByUsername(dto.username)]);
     if (game && user) {
       const gameId = game.id;
       const deductPoint = await this.deductPointGameByUser(user.id, gameId, dto.points);
       if (deductPoint) {
-        const moveToMain = await this.ku6018Service.TransferPointToMain(dto.username, dto.points);
+        const moveToMain = await this.ku6018Service.AddPointToMain(dto.username, dto.points);
         if (moveToMain.status) {
           return moveToMain.message;
         }
         throw new Error(moveToMain.message);
       } else {
         throw new Error(messageResponse.userPoint.accountNotHaveEnoughPoints);
+      }
+    }
+    throw new Error('game_or_user_not_found');
+  }
+
+  async movePointMainToGame(dto: MovePointToMainOrGame) {
+    if (!(dto.points > 0) || !dto.username || !dto.game) throw new Error(messageResponse.system.missingData);
+    const [game, user] = await Promise.all([this.gamePointService.findOneBySlugAndSaveRedis(dto.game), this.userService.findOneByUsername(dto.username)]);
+    if (game && user) {
+      const deductPoint = await this.ku6018Service.DeductPointInMain(dto.username, dto.points);
+      if (deductPoint.status) {
+        const addPointGame = await this.addPointToUser({
+          userId: user.id,
+          gamePointId: game.id,
+          points: dto.points,
+          type: TypeUpdatePointUser.up,
+        });
+        if (addPointGame) {
+          return 'transfer_point_success';
+        } else {
+          // refunds main when error
+          await this.ku6018Service.AddPointToMain(dto.username, dto.points);
+          throw new Error(messageResponse.userPoint.anErrorOccurred);
+        }
+      } else {
+        throw new Error(deductPoint.message);
       }
     }
     throw new Error('game_or_user_not_found');

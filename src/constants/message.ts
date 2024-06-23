@@ -48,5 +48,6 @@ export const messageResponse = {
   },
   userPoint: {
     accountNotHaveEnoughPoints: 'account_not_have_enough_points',
+    anErrorOccurred: 'an_error_occurred',
   },
 };

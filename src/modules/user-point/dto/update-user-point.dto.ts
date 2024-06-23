@@ -14,7 +14,10 @@ export class AddPointToGameDto {
   type: number;
 }
 
-export class MovePointToMain {
+export class MovePointToMainOrGame {
+  @ApiProperty({ name: 'isToMain', description: 'chuyển tiền đến tk chính hay chuyển về tk game', type: Boolean })
+  isToMain: string;
+
   @ApiProperty({ name: 'username', description: 'usernameUser', type: String })
   username: string;
 
