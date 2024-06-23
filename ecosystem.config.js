@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'game-dice-be',
+      name: 'game-be-ku8018',
       script: 'dist/main.js',
       // autorestart: true,
       // watch: ['dist'],
