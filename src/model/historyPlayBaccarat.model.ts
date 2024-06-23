@@ -1,7 +1,7 @@
 import { BeforeCount, BeforeFind, BelongsTo, Column, ForeignKey, Model, Table } from 'sequelize-typescript';
 import { DataType } from 'sequelize-typescript';
 import { BaccaratDetailsModel, GameBaccaratModel, UserModel, addConditionNotDelete } from '.';
-import { StatusHistoryPlayGame } from 'src/constants';
+import { StatusHistoryPlayGame, TypeUpdatePointUser } from 'src/constants';
 
 @Table({
   tableName: 'HistoryPlayBaccarats',
@@ -37,7 +37,7 @@ export class HistoryPlayBaccaratModel extends Model {
   @Column({ type: DataType.INTEGER, defaultValue: StatusHistoryPlayGame.wait })
   status: number;
 
-  @Column({ type: DataType.INTEGER })
+  @Column({ type: DataType.INTEGER, defaultValue: TypeUpdatePointUser.down })
   result: number;
 
   @ForeignKey(() => GameBaccaratModel)
