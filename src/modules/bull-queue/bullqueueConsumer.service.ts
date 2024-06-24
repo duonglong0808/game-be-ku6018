@@ -243,12 +243,39 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
     const dataUserUpPoint: DataJobAddPointToUser[] = [];
     const valuePokerPlayer: number[] = pokerPlayer.map((pk) => pointPoker[pk.split('_')[1].slice(1)]);
     const valuePokerBanker: number[] = pokerBanker.map((pk) => pointPoker[pk.split('_')[1].slice(1)]);
+    const isNatural = (pokerPlayer.length == 2 && pointPlayer >= 8) || (pokerBanker.length == 2 && pointBanker >= 8);
     listUser.forEach((userAnswer) => {
       // Con đôi hoặc cái đôi
       if (valuePokerPlayer[0] == valuePokerPlayer[1] || valuePokerBanker[0] == valuePokerBanker[1]) {
         if ((userAnswer.answer == TypeAnswerBaccarat.p1 && valuePokerPlayer[0] == valuePokerPlayer[1]) || (userAnswer.answer == TypeAnswerBaccarat.p7 && valuePokerBanker[0] == valuePokerBanker[1])) {
           const user = dataUserUpPoint.find((user) => user.userId);
-          const points = userAnswer.point + userAnswer.point * 14;
+          const points = userAnswer.point + userAnswer.point * 11;
+          if (user) user.points += points;
+          else
+            dataUserUpPoint.push({
+              historyId: userAnswer.id,
+              gamePointId: userAnswer.gamePointId,
+              userId: userAnswer.userId,
+              points,
+              type: TypeUpdatePointUser.up,
+            });
+        } else if (userAnswer.answer == TypeAnswerBaccarat.p9) {
+          // Đôi bất kỳ
+          const user = dataUserUpPoint.find((user) => user.userId);
+          const points = userAnswer.point + userAnswer.point * 5;
+          if (user) user.points += points;
+          else
+            dataUserUpPoint.push({
+              historyId: userAnswer.id,
+              gamePointId: userAnswer.gamePointId,
+              userId: userAnswer.userId,
+              points,
+              type: TypeUpdatePointUser.up,
+            });
+        } else if (userAnswer.answer == TypeAnswerBaccarat.p11 && (pokerBanker[0] == pokerBanker[1] || pokerPlayer[0] == pokerPlayer[1])) {
+          // Đôi hoàn mĩ
+          const user = dataUserUpPoint.find((user) => user.userId);
+          const points = userAnswer.point + userAnswer.point * 25;
           if (user) user.points += points;
           else
             dataUserUpPoint.push({
@@ -400,6 +427,21 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
             type: TypeUpdatePointUser.up,
           });
         }
+      }
+
+      //Con bài chuẩn hoặc cái bài chuẩn
+      if (isNatural && [TypeAnswerBaccarat.p10, TypeAnswerBaccarat.p12].includes(userAnswer.answer)) {
+        const user = dataUserUpPoint.find((user) => user.userId);
+        const points = userAnswer.point + userAnswer.point * 4;
+        if (user) user.points += points;
+        else
+          dataUserUpPoint.push({
+            historyId: userAnswer.id,
+            gamePointId: userAnswer.gamePointId,
+            userId: userAnswer.userId,
+            points,
+            type: TypeUpdatePointUser.up,
+          });
       }
     });
 

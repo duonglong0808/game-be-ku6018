@@ -80,6 +80,10 @@ export const TypeAnswerBaccarat = {
   p6: 6, // Super 6
   p7: 7, // Cai doi
   p8: 8, // Cai long bao
+  p9: 9, // Đôi bất kỳ
+  p10: 10, // Con bài chuẩn
+  p11: 11, // Đôi hoàn mĩ
+  p12: 12, // Cái bài chuẩn
 };
 
 export const StatusHistoryPlayGame = {
