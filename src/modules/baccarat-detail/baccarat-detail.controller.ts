@@ -13,7 +13,7 @@ export class BaccaratDetailController {
 
   @Post()
   @Public()
-  @ApiOperationCustom('Dice Detail', 'POST')
+  @ApiOperationCustom('Baccarat Detail', 'POST')
   async create(@Body() dto: CreateBaccaratDetailDto) {
     try {
       return await this.baccaratDetailService.create(dto);
@@ -25,14 +25,14 @@ export class BaccaratDetailController {
   @Get('admin')
   @BaseFilter()
   @ApiQuery({
-    name: 'gameDiceId',
+    name: 'BaccaratId',
     description: 'Id cuar game',
     type: Number,
   })
-  @ApiOperationCustom('Dice Detail', 'get')
-  findAllByCMS(@Req() req: any, @Query('gameDiceId') gameDiceId: number, @Query('sort') sort: string, @Query('typeSort') typeSort: string) {
+  @ApiOperationCustom('Baccarat Detail', 'get')
+  findAllByCMS(@Req() req: any, @Query('BaccaratId') BaccaratId: number, @Query('sort') sort: string, @Query('typeSort') typeSort: string) {
     try {
-      return this.baccaratDetailService.findAllCMS(gameDiceId, req['pagination'], sort, typeSort);
+      return this.baccaratDetailService.findAllCMS(BaccaratId, req['pagination'], sort, typeSort);
     } catch (error) {
       throw new HttpException(error?.message, HttpStatus.BAD_REQUEST);
     }
@@ -50,7 +50,7 @@ export class BaccaratDetailController {
     description: 'thời gian kết thúc',
     type: Number,
   })
-  @ApiOperationCustom('Dice Detail brief', 'get')
+  @ApiOperationCustom('Baccarat Detail brief', 'get')
   findTotalBetAndRewardByCMS(@Query('dateFrom') dateFrom: number, @Query('dateTo') dateTo: number) {
     try {
       return this.baccaratDetailService.getBrief(dateFrom, dateTo);
@@ -61,12 +61,12 @@ export class BaccaratDetailController {
 
   @Get('')
   @ApiQuery({
-    name: 'gameDiceId',
+    name: 'BaccaratId',
     description: 'Id cuar game',
     type: Number,
   })
-  @ApiOperationCustom('Dice Detail for user', 'get')
-  findAll(@Query('gameDiceId') gameDiceId: number) {
+  @ApiOperationCustom('Baccarat Detail for user', 'get')
+  findAll(@Query('BaccaratId') BaccaratId: number) {
     try {
       return this.baccaratDetailService.findHistoryNear();
     } catch (error) {
@@ -75,7 +75,7 @@ export class BaccaratDetailController {
   }
 
   @Patch('/:id/status')
-  @ApiOperationCustom('Dice Detail status', 'patch')
+  @ApiOperationCustom('Baccarat Detail status', 'patch')
   async updateStatus(@Param('id') id: string, @Body() dto: UpdateStatusBaccaratDetailDto) {
     try {
       return await this.baccaratDetailService.updateStatus(+id, dto);
@@ -86,7 +86,7 @@ export class BaccaratDetailController {
 
   @Post('bot')
   @Public()
-  @ApiOperationCustom('Dice Detail status', 'patch')
+  @ApiOperationCustom('Baccarat Detail status', 'patch')
   async updateResultBot(@Body() dto: UpdateStatusBaccaratDetailBotDto) {
     try {
       return await this.baccaratDetailService.updateStatusAndAnswersBOT(dto);
@@ -96,7 +96,7 @@ export class BaccaratDetailController {
   }
 
   @Delete(':id')
-  @ApiOperationCustom('Dice Detail', 'delete')
+  @ApiOperationCustom('Baccarat Detail', 'delete')
   async remove(@Param('id') id: string) {
     try {
       return await this.baccaratDetailService.remove(+id);

@@ -110,7 +110,7 @@ export class HistoryPlayService {
         sort,
         typeSort,
         ...pagination,
-        projection: ['id', 'answer', 'point', 'status', 'gameDiceId', 'diceDetailId', 'result', 'createdAt'],
+        projection: ['id', 'answer', 'point', 'status', 'gameDiceId', 'diceDetailId', 'result'],
         include: [
           {
             model: UserModel,
@@ -128,12 +128,12 @@ export class HistoryPlayService {
         sort,
         typeSort,
         ...pagination,
-        projection: ['id', 'answer', 'point', 'status', 'gameDiceId', 'diceDetailId', 'userId', 'createdAt'],
+        projection: ['id', 'answer', 'point', 'status', 'gameBaccaratId', 'baccaratDetailId', 'type', 'result'],
         include: [
           {
             model: UserModel,
             as: 'user',
-            attributes: ['id', 'username', 'email'], // Chỉ lấy ra id, username và email từ bảng user
+            attributes: ['id', 'username'], // Chỉ lấy ra id, username và email từ bảng user
           },
         ],
       });
