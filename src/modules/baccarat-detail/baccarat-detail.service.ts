@@ -46,7 +46,7 @@ export class BaccaratDetailService {
         limit: 240,
         sort: 'id',
         typeSort: 'DESC',
-        projection: ['id', 'transaction', 'mainTransaction', 'pokerPlayer', 'pokerBanker', 'pointPlayer', 'pointBanker', 'status', 'gameBaccaratId', 'id'],
+        projection: ['id', 'transaction', 'mainTransaction', 'pokerPlayer', 'pokerBanker', 'pointPlayer', 'pointBanker', 'dateId', 'gameBaccaratId', 'id'],
       },
     );
     return {
