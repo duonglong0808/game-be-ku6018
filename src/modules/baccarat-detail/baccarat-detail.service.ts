@@ -93,7 +93,7 @@ export class BaccaratDetailService {
         case StatusBaccarat.showPoker:
           return 4.5;
         case StatusBaccarat.check:
-          return 4.5;
+          return 4;
         case StatusBaccarat.end:
           return 1;
         default:

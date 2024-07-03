@@ -235,19 +235,21 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
   ) {}
 
   @Process()
-  async calcPointDice(job: Job<DataJobCalcPointBaccarat>) {
+  async calcPointBaccarat(job: Job<DataJobCalcPointBaccarat>) {
     const data = job.data;
-    console.log('🚀 ~ BullQueueConsumerServiceCalcPointBaccarat ~ calcPointDice ~ data:', data);
+    console.log('🚀 ~ BullQueueConsumerServiceCalcPointBaccarat ~ calcPointBaccarat ~ data:', data);
     const { baccaratDetailId, pokerPlayer, pokerBanker, pointBanker, pointPlayer } = data;
     const { data: listUser } = await this.historyPlayService.findAllByBaccaratDetailId(baccaratDetailId);
     const dataUserUpPoint: DataJobAddPointToUser[] = [];
     const valuePokerPlayer: number[] = pokerPlayer.map((pk) => pointPoker[pk.split('_')[1].slice(1)]);
+    const namePokerPlayer: string[] = pokerPlayer.map((pk) => pk.split('_')[1].slice(1));
     const valuePokerBanker: number[] = pokerBanker.map((pk) => pointPoker[pk.split('_')[1].slice(1)]);
+    const namePokerBanker: string[] = pokerBanker.map((pk) => pk.split('_')[1].slice(1));
     const isNatural = (pokerPlayer.length == 2 && pointPlayer >= 8) || (pokerBanker.length == 2 && pointBanker >= 8);
     listUser.forEach((userAnswer) => {
       // Con đôi hoặc cái đôi
-      if (valuePokerPlayer[0] == valuePokerPlayer[1] || valuePokerBanker[0] == valuePokerBanker[1]) {
-        if ((userAnswer.answer == TypeAnswerBaccarat.p1 && valuePokerPlayer[0] == valuePokerPlayer[1]) || (userAnswer.answer == TypeAnswerBaccarat.p7 && valuePokerBanker[0] == valuePokerBanker[1])) {
+      if (namePokerPlayer[0] == namePokerPlayer[1] || namePokerBanker[0] == namePokerBanker[1]) {
+        if ((userAnswer.answer == TypeAnswerBaccarat.p1 && namePokerPlayer[0] == namePokerPlayer[1]) || (userAnswer.answer == TypeAnswerBaccarat.p7 && namePokerBanker[0] == namePokerBanker[1])) {
           const user = dataUserUpPoint.find((user) => user.userId);
           const points = userAnswer.point + userAnswer.point * 11;
           if (user) user.points += points;
@@ -331,15 +333,17 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
           }
         }
 
-        if (user) user.points += points;
-        else {
-          dataUserUpPoint.push({
-            historyId: userAnswer.id,
-            gamePointId: userAnswer.gamePointId,
-            userId: userAnswer.userId,
-            points,
-            type: TypeUpdatePointUser.up,
-          });
+        if (points) {
+          if (user) user.points += points;
+          else {
+            dataUserUpPoint.push({
+              historyId: userAnswer.id,
+              gamePointId: userAnswer.gamePointId,
+              userId: userAnswer.userId,
+              points,
+              type: TypeUpdatePointUser.up,
+            });
+          }
         }
       } else if (pointBanker > pointPlayer) {
         // Cái long bảo , Cái thắng (trừ trường hợp chuẩn hòa), super 6
@@ -392,15 +396,17 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
           points += userAnswer.point + userAnswer.point * rate;
         }
 
-        if (user) user.points += points;
-        else {
-          dataUserUpPoint.push({
-            historyId: userAnswer.id,
-            gamePointId: userAnswer.gamePointId,
-            userId: userAnswer.userId,
-            points,
-            type: TypeUpdatePointUser.up,
-          });
+        if (points) {
+          if (user) user.points += points;
+          else {
+            dataUserUpPoint.push({
+              historyId: userAnswer.id,
+              gamePointId: userAnswer.gamePointId,
+              userId: userAnswer.userId,
+              points,
+              type: TypeUpdatePointUser.up,
+            });
+          }
         }
       } else if (pointBanker == pointPlayer) {
         // Hòa or con, cái (long bảo chuẩn hòa)
@@ -414,15 +420,17 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
           points += userAnswer.point;
         }
         const user = dataUserUpPoint.find((user) => user.userId);
-        if (user) user.points += points;
-        else {
-          dataUserUpPoint.push({
-            historyId: userAnswer.id,
-            gamePointId: userAnswer.gamePointId,
-            userId: userAnswer.userId,
-            points,
-            type: TypeUpdatePointUser.up,
-          });
+        if (points) {
+          if (user) user.points += points;
+          else {
+            dataUserUpPoint.push({
+              historyId: userAnswer.id,
+              gamePointId: userAnswer.gamePointId,
+              userId: userAnswer.userId,
+              points,
+              type: TypeUpdatePointUser.up,
+            });
+          }
         }
       }
 
@@ -446,9 +454,8 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
     dataUserUpPoint.forEach((userPoint) => (userPoint.points = Math.ceil(userPoint.points)));
     if (listUser.length) {
       const totalBet = listUser.reduce((pre, item) => pre + item.point, 0);
-      console.log('🚀 ~ BullQueueConsumerServiceCalcPointDice ~ calcPointDice ~ totalBet:', totalBet);
       const totalReward = dataUserUpPoint.reduce((pre, item) => pre + item.points, 0) || 0;
-      console.log('🚀 ~ BullQueueConsumerServiceCalcPointDice ~ calcPointDice ~ totalReward:', totalReward);
+      console.log('🚀 ~ BullQueueConsumerServiceCalcPointBaccarat ~ calcPointBaccarat ~ totalBet, totalReward:', totalBet, totalReward);
       this.baccaratDetailService.updateDataBetAndReward(baccaratDetailId, totalBet, totalReward);
     }
     console.log('🚀 ~ BullQueueConsumerServiceCalcPointBaccarat ~ calcPointDice ~ dataUserUpPoint:', dataUserUpPoint);
