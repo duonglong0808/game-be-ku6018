@@ -185,7 +185,7 @@ export class BaccaratDetailService {
     const timeDelay = this.getTimeDelayQueueUpdateStatus(baccaratDetail.status, nextStep);
     if (timeDelay) {
       if (baccaratDetail.status == StatusBaccarat.end) {
-        const newMainTransaction = `${+baccaratDetail.mainTransaction.split('-')[1] == 64 ? +(baccaratDetail.mainTransaction.split('-')[0] + 1) : baccaratDetail.mainTransaction.split('-')[0]}-${+baccaratDetail.mainTransaction.split('-')[1] == 64 ? 1 : +baccaratDetail.mainTransaction.split('-')[1] + 1}`;
+        const newMainTransaction = `${+baccaratDetail.mainTransaction.split('-')[1] == 64 ? +baccaratDetail.mainTransaction.split('-')[0] + 1 : baccaratDetail.mainTransaction.split('-')[0]}-${+baccaratDetail.mainTransaction.split('-')[1] == 64 ? 1 : +baccaratDetail.mainTransaction.split('-')[1] + 1}`;
         const createDto: CreateBaccaratDetailDto = {
           dateId: +formatDateToId(),
           gameBaccaratId: baccaratDetail.gameBaccaratId,

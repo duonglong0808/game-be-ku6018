@@ -88,7 +88,7 @@ export class HistoryPlayService {
     return this.historyPlayBaccaratRepository.findAll(
       { baccaratDetailId },
       {
-        projection: ['id', 'userId', 'gamePointId', 'point', 'answer'],
+        projection: ['id', 'userId', 'gamePointId', 'point', 'answer', 'type'],
       },
     );
   }
