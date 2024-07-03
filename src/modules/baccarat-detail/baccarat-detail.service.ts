@@ -93,9 +93,9 @@ export class BaccaratDetailService {
         case StatusBaccarat.showPoker:
           return 4.5;
         case StatusBaccarat.check:
-          return 5;
+          return 4.5;
         case StatusBaccarat.end:
-          return false;
+          return 1;
         default:
           return false;
       }
@@ -124,7 +124,7 @@ export class BaccaratDetailService {
 
       case StatusBaccarat.waitOpen:
       case StatusBaccarat.showPoker:
-        if (baccaratDetail.pointBanker) {
+        if (baccaratDetail.pointBanker != null) {
           baccaratDetail.status = StatusBaccarat.check;
           nextStep = true;
         } else {
@@ -141,7 +141,12 @@ export class BaccaratDetailService {
           const pointCardThreePayer = +dto.pokerPlayer[3]?.split('_')[1].slice(1);
           const bankerNeedsCard = dto.pokerBanker.length < 2 || (!isNatural && dto.pokerBanker.length == 2 && (totalPointBanker <= 2 || (totalPointBanker == 3 && pointCardThreePayer != 8) || (totalPointBanker == 4 && [2, 3, 4, 5, 6, 7].includes(pointCardThreePayer)) || (totalPointBanker == 5 && [4, 5, 6, 7].includes(pointCardThreePayer)) || (totalPointBanker == 6 && [6, 7].includes(pointCardThreePayer))));
 
-          if (isNatural || (dto.pokerPlayer.length == 3 && dto.pokerBanker.length == 3) || (!playerNeedsCard && !bankerNeedsCard)) {
+          if (
+            //
+            isNatural ||
+            (dto.pokerPlayer.length == 3 && dto.pokerBanker.length == 3) ||
+            (!playerNeedsCard && !bankerNeedsCard)
+          ) {
             nextStep = true;
             baccaratDetail.pointBanker = totalPointBanker;
             baccaratDetail.pointPlayer = totalPointPlayer;

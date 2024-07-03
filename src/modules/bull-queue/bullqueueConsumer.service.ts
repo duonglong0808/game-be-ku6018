@@ -341,10 +341,9 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
             type: TypeUpdatePointUser.up,
           });
         }
-      }
+      } else if (pointBanker > pointPlayer) {
+        // Cái long bảo , Cái thắng (trừ trường hợp chuẩn hòa), super 6
 
-      // Cái long bảo , Cái thắng (trừ trường hợp chuẩn hòa), super 6
-      if (pointBanker > pointPlayer) {
         const user = dataUserUpPoint.find((user) => user.userId);
         let points = 0;
         // Cái thắng
@@ -403,10 +402,8 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
             type: TypeUpdatePointUser.up,
           });
         }
-      }
-
-      // Hòa or con, cái (long bảo chuẩn hòa)
-      if (pointBanker == pointPlayer) {
+      } else if (pointBanker == pointPlayer) {
+        // Hòa or con, cái (long bảo chuẩn hòa)
         let points = 0;
         // Hòa
         if (userAnswer.answer == TypeAnswerBaccarat.p3) {
