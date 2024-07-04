@@ -302,7 +302,7 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
         // Con long bảo
         if (pointPlayer - pointBanker >= 4 && userAnswer.answer == TypeAnswerBaccarat.p2) {
           let rate: boolean | number = false;
-          if (valuePokerPlayer[0] + valuePokerPlayer[1] >= 8) {
+          if ((valuePokerPlayer[0] + valuePokerPlayer[1]) % 10 >= 8) {
             rate = 1;
           } else {
             switch (pointPlayer - pointBanker) {
@@ -329,6 +329,7 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
             }
           }
           if (rate != false) {
+            console.log('🚀 ~ BullQueueConsumerServiceCalcPointBaccarat ~ listUser.forEach ~ rate:', rate);
             points += userAnswer.point + userAnswer.point * rate;
           }
         }
@@ -356,9 +357,9 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
         }
 
         // Cái long bảo
-        if (pointBanker - pointPlayer > 4 && userAnswer.answer == TypeAnswerBaccarat.p2) {
+        if (pointBanker - pointPlayer > 4 && userAnswer.answer == TypeAnswerBaccarat.p8) {
           let rate: boolean | number = false;
-          if (valuePokerBanker[0] + valuePokerBanker[1] >= 8) {
+          if ((valuePokerBanker[0] + valuePokerBanker[1]) % 10 >= 8) {
             rate = 1;
           } else {
             switch (pointBanker - pointPlayer) {
@@ -386,6 +387,7 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
           }
 
           if (rate != false) {
+            console.log('🚀 ~ BullQueueConsumerServiceCalcPointBaccarat ~ listUser.forEach ~ rate:', rate);
             points += userAnswer.point + userAnswer.point * rate;
           }
         }
@@ -415,8 +417,8 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
         if (userAnswer.answer == TypeAnswerBaccarat.p3) {
           points += userAnswer.point + userAnswer.point * 8;
         }
-        // Hồi tiền cược con or cái(long bảo)
-        if (valuePokerPlayer[0] + valuePokerPlayer[1] >= 8 && valuePokerBanker[0] + valuePokerBanker[1] >= 8 && (userAnswer.answer == TypeAnswerBaccarat.p2 || userAnswer.answer == TypeAnswerBaccarat.p8)) {
+        // Hồi tiền cược con or cái(long bảo) khi chuẩn hòa
+        if ((valuePokerPlayer[0] + valuePokerPlayer[1]) % 10 >= 8 && (valuePokerBanker[0] + valuePokerBanker[1]) % 10 >= 8 && (userAnswer.answer == TypeAnswerBaccarat.p2 || userAnswer.answer == TypeAnswerBaccarat.p8)) {
           points += userAnswer.point;
         }
         const user = dataUserUpPoint.find((user) => user.userId);
