@@ -28,7 +28,7 @@ export class BullQueueConsumerServiceCalcPointDice {
     if (totalRed == 0 || totalRed == 4) {
       listUser.forEach((userAnswer) => {
         if (userAnswer.answer == TypeAnswerDice.p1 && totalRed == 0) {
-          const user = dataUserUpPoint.find((user) => user.userId);
+          const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
           const points = userAnswer.point + userAnswer.point * 14;
           if (user) user.points += points;
           else
@@ -40,7 +40,7 @@ export class BullQueueConsumerServiceCalcPointDice {
               type: TypeUpdatePointUser.up,
             });
         } else if (userAnswer.answer == TypeAnswerDice.p8 && totalRed == 4) {
-          const user = dataUserUpPoint.find((user) => user.userId);
+          const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
           const points = userAnswer.point + userAnswer.point * 14;
           if (user) user.points += points;
           else
@@ -52,7 +52,7 @@ export class BullQueueConsumerServiceCalcPointDice {
               type: TypeUpdatePointUser.up,
             });
         } else if (userAnswer.answer == TypeAnswerDice.p10) {
-          const user = dataUserUpPoint.find((user) => user.userId);
+          const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
           const points = userAnswer.point + userAnswer.point * 6.5;
           if (user) user.points += points;
           else
@@ -69,7 +69,7 @@ export class BullQueueConsumerServiceCalcPointDice {
     } else if (totalRed == 1 || totalRed == 3) {
       listUser.forEach((userAnswer) => {
         if (userAnswer.answer == TypeAnswerDice.p2 && totalRed == 1) {
-          const user = dataUserUpPoint.find((user) => user.userId);
+          const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
           const points = userAnswer.point + userAnswer.point * 2.8;
           if (user) user.points += points;
           else
@@ -81,7 +81,7 @@ export class BullQueueConsumerServiceCalcPointDice {
               type: TypeUpdatePointUser.up,
             });
         } else if (userAnswer.answer == TypeAnswerDice.p9 && totalRed == 3) {
-          const user = dataUserUpPoint.find((user) => user.userId);
+          const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
           const points = userAnswer.point + userAnswer.point * 2.8;
           if (user) user.points += points;
           else
@@ -97,7 +97,7 @@ export class BullQueueConsumerServiceCalcPointDice {
     } else if (totalRed == 2) {
       listUser.forEach((userAnswer) => {
         if (userAnswer.answer == TypeAnswerDice.p3) {
-          const user = dataUserUpPoint.find((user) => user.userId);
+          const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
           const points = userAnswer.point + userAnswer.point * 1.5;
           if (user) user.points += points;
           else
@@ -115,7 +115,7 @@ export class BullQueueConsumerServiceCalcPointDice {
     if (totalRed == 0) {
       listUser.forEach((userAnswer) => {
         if (userAnswer.answer == TypeAnswerDice.p4) {
-          const user = dataUserUpPoint.find((user) => user.userId);
+          const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
           const points = userAnswer.point + userAnswer.point * 0.96;
           if (user) user.points += points;
           else
@@ -133,7 +133,7 @@ export class BullQueueConsumerServiceCalcPointDice {
       //1:1.5 1đ
       listUser.forEach((userAnswer) => {
         if (userAnswer.answer == TypeAnswerDice.p6 || userAnswer.answer == TypeAnswerDice.p5) {
-          const user = dataUserUpPoint.find((user) => user.userId);
+          const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
           const points = userAnswer.point + userAnswer.point * 0.96;
           if (user) user.points += points;
           else
@@ -151,7 +151,7 @@ export class BullQueueConsumerServiceCalcPointDice {
       //1:1.5 1đ
       listUser.forEach((userAnswer) => {
         if (userAnswer.answer == TypeAnswerDice.p4) {
-          const user = dataUserUpPoint.find((user) => user.userId);
+          const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
           const points = userAnswer.point + userAnswer.point * 0.96;
           if (user) user.points += points;
           else
@@ -169,7 +169,7 @@ export class BullQueueConsumerServiceCalcPointDice {
       //1:1.5 1đ
       listUser.forEach((userAnswer) => {
         if (userAnswer.answer == TypeAnswerDice.p6 || userAnswer.answer == TypeAnswerDice.p7) {
-          const user = dataUserUpPoint.find((user) => user.userId);
+          const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
           const points = userAnswer.point + userAnswer.point * 0.96;
           if (user) user.points += points;
           else
@@ -187,7 +187,7 @@ export class BullQueueConsumerServiceCalcPointDice {
       //1:1.5 1đ
       listUser.forEach((userAnswer) => {
         if (userAnswer.answer == TypeAnswerDice.p4 || userAnswer.answer == TypeAnswerDice.p7) {
-          const user = dataUserUpPoint.find((user) => user.userId);
+          const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
           const points = userAnswer.point + userAnswer.point * 0.96;
           if (user) user.points += points;
           else
@@ -250,7 +250,7 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
       // Con đôi hoặc cái đôi
       if (namePokerPlayer[0] == namePokerPlayer[1] || namePokerBanker[0] == namePokerBanker[1]) {
         if ((userAnswer.answer == TypeAnswerBaccarat.p1 && namePokerPlayer[0] == namePokerPlayer[1]) || (userAnswer.answer == TypeAnswerBaccarat.p7 && namePokerBanker[0] == namePokerBanker[1])) {
-          const user = dataUserUpPoint.find((user) => user.userId);
+          const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
           const points = userAnswer.point + userAnswer.point * 11;
           if (user) user.points += points;
           else
@@ -263,7 +263,7 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
             });
         } else if (userAnswer.answer == TypeAnswerBaccarat.p9) {
           // Đôi bất kỳ
-          const user = dataUserUpPoint.find((user) => user.userId);
+          const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
           const points = userAnswer.point + userAnswer.point * 5;
           if (user) user.points += points;
           else
@@ -276,7 +276,7 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
             });
         } else if (userAnswer.answer == TypeAnswerBaccarat.p11 && (pokerBanker[0] == pokerBanker[1] || pokerPlayer[0] == pokerPlayer[1])) {
           // Đôi hoàn mĩ
-          const user = dataUserUpPoint.find((user) => user.userId);
+          const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
           const points = userAnswer.point + userAnswer.point * 25;
           if (user) user.points += points;
           else
@@ -292,7 +292,7 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
 
       // Con long bảo , Con thắng (trừ trường hợp chuẩn hòa)
       if (pointPlayer > pointBanker) {
-        const user = dataUserUpPoint.find((user) => user.userId);
+        const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
         let points = 0;
         // Con thắng
         if (userAnswer.answer == TypeAnswerBaccarat.p5) {
@@ -349,7 +349,7 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
       } else if (pointBanker > pointPlayer) {
         // Cái long bảo , Cái thắng (trừ trường hợp chuẩn hòa), super 6
 
-        const user = dataUserUpPoint.find((user) => user.userId);
+        const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
         let points = 0;
         // Cái thắng
         if (userAnswer.answer == TypeAnswerBaccarat.p4) {
@@ -357,7 +357,7 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
         }
 
         // Cái long bảo
-        if (pointBanker - pointPlayer > 4 && userAnswer.answer == TypeAnswerBaccarat.p8) {
+        if (pointBanker - pointPlayer >= 4 && userAnswer.answer == TypeAnswerBaccarat.p8) {
           let rate: boolean | number = false;
           if ((valuePokerBanker[0] + valuePokerBanker[1]) % 10 >= 8) {
             rate = 1;
@@ -421,7 +421,7 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
         if ((valuePokerPlayer[0] + valuePokerPlayer[1]) % 10 >= 8 && (valuePokerBanker[0] + valuePokerBanker[1]) % 10 >= 8 && (userAnswer.answer == TypeAnswerBaccarat.p2 || userAnswer.answer == TypeAnswerBaccarat.p8)) {
           points += userAnswer.point;
         }
-        const user = dataUserUpPoint.find((user) => user.userId);
+        const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
         if (points) {
           if (user) user.points += points;
           else {
@@ -438,7 +438,7 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
 
       //Con bài chuẩn hoặc cái bài chuẩn
       if (isNatural && [TypeAnswerBaccarat.p10, TypeAnswerBaccarat.p12].includes(userAnswer.answer)) {
-        const user = dataUserUpPoint.find((user) => user.userId);
+        const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
         const points = userAnswer.point + userAnswer.point * 4;
         if (user) user.points += points;
         else

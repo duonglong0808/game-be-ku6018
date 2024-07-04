@@ -148,11 +148,11 @@ export class HistoryPlayService {
 
   updateResultByDiceDetailId(
     data: {
-      type: number;
+      points: number;
       historyId: number;
     }[],
   ) {
-    return Promise.all(data.map((item) => this.historyPlayDiceRepository.findByIdAndUpdate(item.historyId, { result: item.type })));
+    return Promise.all(data.map((item) => this.historyPlayDiceRepository.findByIdAndUpdate(item.historyId, { result: item.points })));
   }
 
   updateStatusByBaccaratDetailId(baccaratDetailId: number, status: number) {
@@ -161,12 +161,11 @@ export class HistoryPlayService {
 
   updateResultByBaccaratDetailId(
     data: {
-      type: number;
       points: number;
       historyId: number;
     }[],
   ) {
-    return Promise.all(data.map((item) => item.points && this.historyPlayBaccaratRepository.findByIdAndUpdate(item.historyId, { result: item.type })));
+    return Promise.all(data.map((item) => item.points && this.historyPlayBaccaratRepository.findByIdAndUpdate(item.historyId, { result: item.points })));
   }
 
   update(id: number, dto: any) {
