@@ -93,9 +93,13 @@ export class HistoryPlayService {
     );
   }
 
-  findAllCms(pagination: Pagination, game: string, diceDetailId: number, gameDiceId: number, baccaratDetailId: number, gameBaccaratId: number, userId: number, dateFrom: Date, dateTo: Date, sort?: string, typeSort?: string) {
+  findAllCms(pagination: Pagination, game: string, diceDetailId: number, gameDiceId: number, baccaratDetailId: number, gameBaccaratId: number, username: string, dateFrom: Date, dateTo: Date, sort?: string, typeSort?: string) {
     const filter: any = {};
-    if (userId) filter.userId = userId;
+    const userFilter: any = {};
+
+    if (username) {
+      userFilter.username = username;
+    }
     if (dateFrom && dateTo)
       filter.dateId = {
         [Op.gte]: dateFrom,
@@ -116,6 +120,7 @@ export class HistoryPlayService {
             model: UserModel,
             as: 'user',
             attributes: ['id', 'username'], // Chỉ lấy ra id, username và email từ bảng user
+            where: userFilter,
           },
         ],
       });
@@ -134,6 +139,7 @@ export class HistoryPlayService {
             model: UserModel,
             as: 'user',
             attributes: ['id', 'username'], // Chỉ lấy ra id, username và email từ bảng user
+            where: userFilter,
           },
         ],
       });
