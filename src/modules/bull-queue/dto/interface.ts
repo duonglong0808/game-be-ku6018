@@ -18,6 +18,7 @@ export interface DataJobAddPointToUser {
   userId: number;
   gamePointId: number;
   points: number;
+  pointBetMain: number;
   type: number;
 }
 

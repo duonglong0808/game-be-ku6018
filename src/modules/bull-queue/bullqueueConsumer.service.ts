@@ -30,9 +30,12 @@ export class BullQueueConsumerServiceCalcPointDice {
         if (userAnswer.answer == TypeAnswerDice.p1 && totalRed == 0) {
           const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
           const points = userAnswer.point + userAnswer.point * 14;
-          if (user) user.points += points;
-          else
+          if (user) {
+            user.points += points;
+            user.pointBetMain += userAnswer.point;
+          } else
             dataUserUpPoint.push({
+              pointBetMain: userAnswer.point,
               historyId: userAnswer.id,
               gamePointId: userAnswer.gamePointId,
               userId: userAnswer.userId,
@@ -42,9 +45,12 @@ export class BullQueueConsumerServiceCalcPointDice {
         } else if (userAnswer.answer == TypeAnswerDice.p8 && totalRed == 4) {
           const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
           const points = userAnswer.point + userAnswer.point * 14;
-          if (user) user.points += points;
-          else
+          if (user) {
+            user.points += points;
+            user.pointBetMain += userAnswer.point;
+          } else
             dataUserUpPoint.push({
+              pointBetMain: userAnswer.point,
               historyId: userAnswer.id,
               gamePointId: userAnswer.gamePointId,
               userId: userAnswer.userId,
@@ -54,9 +60,12 @@ export class BullQueueConsumerServiceCalcPointDice {
         } else if (userAnswer.answer == TypeAnswerDice.p10) {
           const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
           const points = userAnswer.point + userAnswer.point * 6.5;
-          if (user) user.points += points;
-          else
+          if (user) {
+            user.points += points;
+            user.pointBetMain += userAnswer.point;
+          } else
             dataUserUpPoint.push({
+              pointBetMain: userAnswer.point,
               historyId: userAnswer.id,
               gamePointId: userAnswer.gamePointId,
               userId: userAnswer.userId,
@@ -71,9 +80,12 @@ export class BullQueueConsumerServiceCalcPointDice {
         if (userAnswer.answer == TypeAnswerDice.p2 && totalRed == 1) {
           const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
           const points = userAnswer.point + userAnswer.point * 2.8;
-          if (user) user.points += points;
-          else
+          if (user) {
+            user.points += points;
+            user.pointBetMain += userAnswer.point;
+          } else
             dataUserUpPoint.push({
+              pointBetMain: userAnswer.point,
               historyId: userAnswer.id,
               gamePointId: userAnswer.gamePointId,
               userId: userAnswer.userId,
@@ -83,9 +95,12 @@ export class BullQueueConsumerServiceCalcPointDice {
         } else if (userAnswer.answer == TypeAnswerDice.p9 && totalRed == 3) {
           const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
           const points = userAnswer.point + userAnswer.point * 2.8;
-          if (user) user.points += points;
-          else
+          if (user) {
+            user.points += points;
+            user.pointBetMain += userAnswer.point;
+          } else
             dataUserUpPoint.push({
+              pointBetMain: userAnswer.point,
               historyId: userAnswer.id,
               gamePointId: userAnswer.gamePointId,
               userId: userAnswer.userId,
@@ -99,9 +114,12 @@ export class BullQueueConsumerServiceCalcPointDice {
         if (userAnswer.answer == TypeAnswerDice.p3) {
           const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
           const points = userAnswer.point + userAnswer.point * 1.5;
-          if (user) user.points += points;
-          else
+          if (user) {
+            user.points += points;
+            user.pointBetMain += userAnswer.point;
+          } else
             dataUserUpPoint.push({
+              pointBetMain: userAnswer.point,
               historyId: userAnswer.id,
               gamePointId: userAnswer.gamePointId,
               userId: userAnswer.userId,
@@ -117,9 +135,12 @@ export class BullQueueConsumerServiceCalcPointDice {
         if (userAnswer.answer == TypeAnswerDice.p4 || userAnswer.answer == TypeAnswerDice.p5) {
           const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
           const points = userAnswer.point + userAnswer.point * 0.96;
-          if (user) user.points += points;
-          else
+          if (user) {
+            user.points += points;
+            user.pointBetMain += userAnswer.point;
+          } else
             dataUserUpPoint.push({
+              pointBetMain: userAnswer.point,
               historyId: userAnswer.id,
               gamePointId: userAnswer.gamePointId,
               userId: userAnswer.userId,
@@ -135,9 +156,12 @@ export class BullQueueConsumerServiceCalcPointDice {
         if (userAnswer.answer == TypeAnswerDice.p6 || userAnswer.answer == TypeAnswerDice.p5) {
           const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
           const points = userAnswer.point + userAnswer.point * 0.96;
-          if (user) user.points += points;
-          else
+          if (user) {
+            user.points += points;
+            user.pointBetMain += userAnswer.point;
+          } else
             dataUserUpPoint.push({
+              pointBetMain: userAnswer.point,
               historyId: userAnswer.id,
               gamePointId: userAnswer.gamePointId,
               userId: userAnswer.userId,
@@ -153,9 +177,12 @@ export class BullQueueConsumerServiceCalcPointDice {
         if (userAnswer.answer == TypeAnswerDice.p4) {
           const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
           const points = userAnswer.point + userAnswer.point * 0.96;
-          if (user) user.points += points;
-          else
+          if (user) {
+            user.points += points;
+            user.pointBetMain += userAnswer.point;
+          } else
             dataUserUpPoint.push({
+              pointBetMain: userAnswer.point,
               historyId: userAnswer.id,
               gamePointId: userAnswer.gamePointId,
               userId: userAnswer.userId,
@@ -171,9 +198,12 @@ export class BullQueueConsumerServiceCalcPointDice {
         if (userAnswer.answer == TypeAnswerDice.p6 || userAnswer.answer == TypeAnswerDice.p7) {
           const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
           const points = userAnswer.point + userAnswer.point * 0.96;
-          if (user) user.points += points;
-          else
+          if (user) {
+            user.points += points;
+            user.pointBetMain += userAnswer.point;
+          } else
             dataUserUpPoint.push({
+              pointBetMain: userAnswer.point,
               historyId: userAnswer.id,
               gamePointId: userAnswer.gamePointId,
               userId: userAnswer.userId,
@@ -189,9 +219,12 @@ export class BullQueueConsumerServiceCalcPointDice {
         if (userAnswer.answer == TypeAnswerDice.p4 || userAnswer.answer == TypeAnswerDice.p7) {
           const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
           const points = userAnswer.point + userAnswer.point * 0.96;
-          if (user) user.points += points;
-          else
+          if (user) {
+            user.points += points;
+            user.pointBetMain += userAnswer.point;
+          } else
             dataUserUpPoint.push({
+              pointBetMain: userAnswer.point,
               historyId: userAnswer.id,
               gamePointId: userAnswer.gamePointId,
               userId: userAnswer.userId,
@@ -252,9 +285,12 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
         if ((userAnswer.answer == TypeAnswerBaccarat.p1 && namePokerPlayer[0] == namePokerPlayer[1]) || (userAnswer.answer == TypeAnswerBaccarat.p7 && namePokerBanker[0] == namePokerBanker[1])) {
           const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
           const points = userAnswer.point + userAnswer.point * 11;
-          if (user) user.points += points;
-          else
+          if (user) {
+            user.points += points;
+            user.pointBetMain += userAnswer.point;
+          } else
             dataUserUpPoint.push({
+              pointBetMain: userAnswer.point,
               historyId: userAnswer.id,
               gamePointId: userAnswer.gamePointId,
               userId: userAnswer.userId,
@@ -265,9 +301,12 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
           // Đôi bất kỳ
           const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
           const points = userAnswer.point + userAnswer.point * 5;
-          if (user) user.points += points;
-          else
+          if (user) {
+            user.points += points;
+            user.pointBetMain += userAnswer.point;
+          } else
             dataUserUpPoint.push({
+              pointBetMain: userAnswer.point,
               historyId: userAnswer.id,
               gamePointId: userAnswer.gamePointId,
               userId: userAnswer.userId,
@@ -278,9 +317,12 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
           // Đôi hoàn mĩ
           const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
           const points = userAnswer.point + userAnswer.point * 25;
-          if (user) user.points += points;
-          else
+          if (user) {
+            user.points += points;
+            user.pointBetMain += userAnswer.point;
+          } else
             dataUserUpPoint.push({
+              pointBetMain: userAnswer.point,
               historyId: userAnswer.id,
               gamePointId: userAnswer.gamePointId,
               userId: userAnswer.userId,
@@ -335,9 +377,12 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
         }
 
         if (points) {
-          if (user) user.points += points;
-          else {
+          if (user) {
+            user.points += points;
+            user.pointBetMain += userAnswer.point;
+          } else {
             dataUserUpPoint.push({
+              pointBetMain: userAnswer.point,
               historyId: userAnswer.id,
               gamePointId: userAnswer.gamePointId,
               userId: userAnswer.userId,
@@ -399,9 +444,12 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
         }
 
         if (points) {
-          if (user) user.points += points;
-          else {
+          if (user) {
+            user.points += points;
+            user.pointBetMain += userAnswer.point;
+          } else {
             dataUserUpPoint.push({
+              pointBetMain: userAnswer.point,
               historyId: userAnswer.id,
               gamePointId: userAnswer.gamePointId,
               userId: userAnswer.userId,
@@ -423,9 +471,12 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
         }
         const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
         if (points) {
-          if (user) user.points += points;
-          else {
+          if (user) {
+            user.points += points;
+            user.pointBetMain += userAnswer.point;
+          } else {
             dataUserUpPoint.push({
+              pointBetMain: userAnswer.point,
               historyId: userAnswer.id,
               gamePointId: userAnswer.gamePointId,
               userId: userAnswer.userId,
@@ -440,9 +491,12 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
       if (isNatural && [TypeAnswerBaccarat.p10, TypeAnswerBaccarat.p12].includes(userAnswer.answer)) {
         const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
         const points = userAnswer.point + userAnswer.point * 4;
-        if (user) user.points += points;
-        else
+        if (user) {
+          user.points += points;
+          user.pointBetMain += userAnswer.point;
+        } else
           dataUserUpPoint.push({
+            pointBetMain: userAnswer.point,
             historyId: userAnswer.id,
             gamePointId: userAnswer.gamePointId,
             userId: userAnswer.userId,
