@@ -101,7 +101,7 @@ export class HistoryPlayService {
       userFilter.username = username;
     }
     if (dateFrom && dateTo)
-      filter.dateId = {
+      filter.createdAt = {
         [Op.gte]: dateFrom,
         [Op.lte]: dateTo,
       };
