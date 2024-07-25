@@ -114,7 +114,7 @@ export class HistoryPlayService {
         sort,
         typeSort,
         ...pagination,
-        projection: ['id', 'answer', 'point', 'status', 'gameDiceId', 'diceDetailId', 'result'],
+        projection: ['id', 'answer', 'point', 'status', 'gameDiceId', 'diceDetailId', 'result', 'createdAt'],
         include: [
           {
             model: UserModel,
@@ -133,7 +133,7 @@ export class HistoryPlayService {
         sort,
         typeSort,
         ...pagination,
-        projection: ['id', 'answer', 'point', 'status', 'gameBaccaratId', 'baccaratDetailId', 'type', 'result'],
+        projection: ['id', 'answer', 'point', 'status', 'gameBaccaratId', 'baccaratDetailId', 'type', 'result', 'createdAt'],
         include: [
           {
             model: UserModel,
