@@ -58,8 +58,21 @@ export class HistoryPlayController {
     type: String,
   })
   @Public()
-  findAll(@Req() req: any, @Query('username') username: string, @Query('game') game: string, @Query('gameDiceId') gameDiceId: number, @Query('diceDetailId') diceDetailId: number, @Query('gameBaccaratId') gameBaccaratId: number, @Query('baccaratDetailId') baccaratDetailId: number, @Query('dateForm') dateForm: Date, @Query('dateTo') dateTo: Date, @Query('sort') sort: string, @Query('typeSort') typeSort: string) {
-    return this.historyPlayService.findAllCms(req['pagination'], game, diceDetailId, gameDiceId, baccaratDetailId, gameBaccaratId, username, dateForm, dateTo, sort, typeSort);
+  findAll(
+    //
+    @Req() req: any,
+    @Query('username') username: string,
+    @Query('game') game: string,
+    @Query('gameDiceId') gameDiceId: number,
+    @Query('diceDetailId') diceDetailId: number,
+    @Query('gameBaccaratId') gameBaccaratId: number,
+    @Query('baccaratDetailId') baccaratDetailId: number,
+    @Query('dateFrom') dateFrom: Date,
+    @Query('dateTo') dateTo: Date,
+    @Query('sort') sort: string,
+    @Query('typeSort') typeSort: string,
+  ) {
+    return this.historyPlayService.findAllCms(req['pagination'], game, diceDetailId, gameDiceId, baccaratDetailId, gameBaccaratId, username, dateFrom, dateTo, sort, typeSort);
   }
 
   @Patch(':id')
