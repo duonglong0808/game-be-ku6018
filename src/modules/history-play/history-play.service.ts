@@ -50,7 +50,7 @@ export class HistoryPlayService {
     // if (+statusDice?.split(':')[0] != StatusDiceDetail.bet) throw new Error(messageResponse.historyPlay.outsideBettingTime);
 
     // trừ tiền
-    const gamePointId = await this.checkBalanceAndDeductPoint('ku-casino', dto.userId, dto.point);
+    const gamePointId = await this.checkBalanceAndDeductPoint('ku-casino', dto.userId, dto.point, dto.game);
     if (!gamePointId) throw new Error(messageResponse.historyPlay.accountNotHaveEnoughPoints);
     // // Check các option đã chơi
     // const keyCheckBetPosition = `dice-play:${dto.gameDiceId}:${dto.transaction}`;
@@ -68,9 +68,9 @@ export class HistoryPlayService {
     }
   }
 
-  async checkBalanceAndDeductPoint(slug: string, userId: number, points: number): Promise<number> {
+  async checkBalanceAndDeductPoint(slug: string, userId: number, points: number, game: string): Promise<number> {
     const gamePoint = await this.gamePointService.findOneBySlugAndSaveRedis(slug);
-    const deductPoint = await this.userPointService.deductPointGameByUser(userId, gamePoint.id, points);
+    const deductPoint = await this.userPointService.deductPointGameByUser(userId, gamePoint.id, points, `Trừ tiền cược game ${game}`);
     if (deductPoint) return gamePoint.id;
     return null;
   }

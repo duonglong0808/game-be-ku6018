@@ -20,6 +20,7 @@ export interface DataJobAddPointToUser {
   points: number;
   pointBetMain: number;
   type: number;
+  description: string;
 }
 
 export interface DataJobAutoUpdateStatusDice {

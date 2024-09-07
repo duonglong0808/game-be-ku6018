@@ -44,17 +44,17 @@ export class UserPointController {
     }
   }
 
-  @Patch('/')
-  @ApiOperationCustom('Move User Point to main', 'POST')
-  async MovePointToMainOrGame(@Body() dto: MovePointToMainOrGame) {
-    try {
-      // Chuyển về tk chính
-      if (dto.isToMain) {
-        return await this.userPointService.movePointGameToMain(dto);
-      }
-      return await this.userPointService.movePointMainToGame(dto);
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
-  }
+  // @Patch('/')
+  // @ApiOperationCustom('Move User Point to main', 'POST')
+  // async MovePointToMainOrGame(@Body() dto: MovePointToMainOrGame) {
+  //   try {
+  //     // Chuyển về tk chính
+  //     if (dto.isToMain) {
+  //       return await this.userPointService.movePointGameToMain(dto);
+  //     }
+  //     return await this.userPointService.movePointMainToGame(dto);
+  //   } catch (error) {
+  //     throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+  //   }
+  // }
 }

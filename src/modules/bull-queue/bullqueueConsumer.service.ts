@@ -41,6 +41,7 @@ export class BullQueueConsumerServiceCalcPointDice {
               userId: userAnswer.userId,
               points,
               type: TypeUpdatePointUser.up,
+              description: `Cộng tiền thắng ván chơi ${userAnswer.id} game Xóc`,
             });
         } else if (userAnswer.answer == TypeAnswerDice.p8 && totalRed == 4) {
           const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
@@ -56,6 +57,7 @@ export class BullQueueConsumerServiceCalcPointDice {
               userId: userAnswer.userId,
               points,
               type: TypeUpdatePointUser.up,
+              description: `Cộng tiền thắng ván chơi ${userAnswer.id} game Xóc`,
             });
         } else if (userAnswer.answer == TypeAnswerDice.p10) {
           const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
@@ -71,6 +73,7 @@ export class BullQueueConsumerServiceCalcPointDice {
               userId: userAnswer.userId,
               points,
               type: TypeUpdatePointUser.up,
+              description: `Cộng tiền thắng ván chơi ${userAnswer.id} game Xóc`,
             });
         }
       });
@@ -91,6 +94,7 @@ export class BullQueueConsumerServiceCalcPointDice {
               userId: userAnswer.userId,
               points,
               type: TypeUpdatePointUser.up,
+              description: `Cộng tiền thắng ván chơi ${userAnswer.id} game Xóc`,
             });
         } else if (userAnswer.answer == TypeAnswerDice.p9 && totalRed == 3) {
           const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
@@ -106,6 +110,7 @@ export class BullQueueConsumerServiceCalcPointDice {
               userId: userAnswer.userId,
               points,
               type: TypeUpdatePointUser.up,
+              description: `Cộng tiền thắng ván chơi ${userAnswer.id} game Xóc`,
             });
         }
       });
@@ -125,6 +130,7 @@ export class BullQueueConsumerServiceCalcPointDice {
               userId: userAnswer.userId,
               points,
               type: TypeUpdatePointUser.up,
+              description: `Cộng tiền thắng ván chơi ${userAnswer.id} game Xóc`,
             });
         }
       });
@@ -146,6 +152,7 @@ export class BullQueueConsumerServiceCalcPointDice {
               userId: userAnswer.userId,
               points,
               type: TypeUpdatePointUser.up,
+              description: `Cộng tiền thắng ván chơi ${userAnswer.id} game Xóc`,
             });
         }
       });
@@ -167,6 +174,7 @@ export class BullQueueConsumerServiceCalcPointDice {
               userId: userAnswer.userId,
               points,
               type: TypeUpdatePointUser.up,
+              description: `Cộng tiền thắng ván chơi ${userAnswer.id} game Xóc`,
             });
         }
       });
@@ -188,6 +196,7 @@ export class BullQueueConsumerServiceCalcPointDice {
               userId: userAnswer.userId,
               points,
               type: TypeUpdatePointUser.up,
+              description: `Cộng tiền thắng ván chơi ${userAnswer.id} game Xóc`,
             });
         }
       });
@@ -209,6 +218,7 @@ export class BullQueueConsumerServiceCalcPointDice {
               userId: userAnswer.userId,
               points,
               type: TypeUpdatePointUser.up,
+              description: `Cộng tiền thắng ván chơi ${userAnswer.id} game Xóc`,
             });
         }
       });
@@ -230,6 +240,7 @@ export class BullQueueConsumerServiceCalcPointDice {
               userId: userAnswer.userId,
               points,
               type: TypeUpdatePointUser.up,
+              description: `Cộng tiền thắng ván chơi ${userAnswer.id} game Xóc`,
             });
         }
       });
@@ -296,6 +307,7 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
               userId: userAnswer.userId,
               points,
               type: TypeUpdatePointUser.up,
+              description: `Cộng tiền thắng ván chơi ${userAnswer.id} game Baccarat`,
             });
         } else if (userAnswer.answer == TypeAnswerBaccarat.p9) {
           // Đôi bất kỳ
@@ -312,6 +324,7 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
               userId: userAnswer.userId,
               points,
               type: TypeUpdatePointUser.up,
+              description: `Cộng tiền thắng ván chơi ${userAnswer.id} game Baccarat`,
             });
         } else if (userAnswer.answer == TypeAnswerBaccarat.p11 && (pokerBanker[0] == pokerBanker[1] || pokerPlayer[0] == pokerPlayer[1])) {
           // Đôi hoàn mĩ
@@ -328,6 +341,7 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
               userId: userAnswer.userId,
               points,
               type: TypeUpdatePointUser.up,
+              description: `Cộng tiền thắng ván chơi ${userAnswer.id} game Baccarat`,
             });
         }
       }
@@ -388,6 +402,7 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
               userId: userAnswer.userId,
               points,
               type: TypeUpdatePointUser.up,
+              description: `Cộng tiền thắng ván chơi ${userAnswer.id} game Baccarat`,
             });
           }
         }
@@ -455,6 +470,7 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
               userId: userAnswer.userId,
               points,
               type: TypeUpdatePointUser.up,
+              description: `Cộng tiền thắng ván chơi ${userAnswer.id} game Baccarat`,
             });
           }
         }
@@ -464,11 +480,14 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
         // Hòa
         if (userAnswer.answer == TypeAnswerBaccarat.p3) {
           points += userAnswer.point + userAnswer.point * 8;
+        } else if (userAnswer.answer == TypeAnswerBaccarat.p4 || userAnswer.answer == TypeAnswerBaccarat.p5) {
+          points += userAnswer.point;
         }
         // Hồi tiền cược con or cái(long bảo) khi chuẩn hòa
         if ((valuePokerPlayer[0] + valuePokerPlayer[1]) % 10 >= 8 && (valuePokerBanker[0] + valuePokerBanker[1]) % 10 >= 8 && (userAnswer.answer == TypeAnswerBaccarat.p2 || userAnswer.answer == TypeAnswerBaccarat.p8)) {
           points += userAnswer.point;
         }
+
         const user = dataUserUpPoint.find((user) => user.userId == userAnswer.userId);
         if (points) {
           if (user) {
@@ -482,6 +501,7 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
               userId: userAnswer.userId,
               points,
               type: TypeUpdatePointUser.up,
+              description: `Cộng tiền thắng ván chơi ${userAnswer.id} game Baccarat`,
             });
           }
         }
@@ -502,6 +522,7 @@ export class BullQueueConsumerServiceCalcPointBaccarat {
             userId: userAnswer.userId,
             points,
             type: TypeUpdatePointUser.up,
+            description: `Cộng tiền thắng ván chơi ${userAnswer.id} game Baccarat`,
           });
       }
     });

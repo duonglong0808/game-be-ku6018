@@ -22,21 +22,6 @@ export class UserPointService {
     private readonly userService: UserService,
   ) {}
 
-  async deductPointGameByUser(userId: number, gamePointId: number, pointsToDeduct: number): Promise<boolean> {
-    try {
-      const [result, tag]: any = await this.sequelize.query(`CALL deduct_money_by_user_game(:userIdDeduct, :gamePointIdDeduct, :pointsToDeduct);`, {
-        replacements: { userIdDeduct: userId, gamePointIdDeduct: gamePointId, pointsToDeduct: pointsToDeduct },
-        type: 'RAW',
-      });
-
-      // Nếu kết quả trả về 'success', trả về true, ngược lại trả về false
-      return result?.result === 'success';
-    } catch (error) {
-      console.log('🚀 ~ UserPointService ~ deductPointGameByUser ~ error:', error);
-      // Nếu có lỗi xảy ra, trả về false
-      return false;
-    }
-  }
   async findAll(userId: string) {
     const keyRedis = `data-game-point`;
     let allGamePoint: GamePointModel[] = null;
@@ -78,17 +63,41 @@ export class UserPointService {
     };
   }
 
-  async addPointToUser(dto: { userId: number; gamePointId: number; points: number; type: number }) {
+  async deductPointGameByUser(userId: number, gamePointId: number, pointsToDeduct: number, description: string): Promise<boolean> {
     try {
-      const [result, tag]: any = await this.sequelize.query(`CALL add_money_by_user_game(:p_userId, :p_gamePointId, :p_points);`, {
-        replacements: { p_userId: dto.userId, p_gamePointId: dto.gamePointId, p_points: dto.points },
+      // Thực hiện CALL để gọi stored procedure
+      await this.sequelize.query(`CALL deduct_money_by_user_game(:p_userId, :p_gameId, :p_points, :p_description, @p_result);`, {
+        replacements: { p_userId: userId, p_gameId: gamePointId, p_points: pointsToDeduct, p_description: description },
         type: 'RAW',
       });
 
-      // Nếu kết quả trả về 'success', trả về true, ngược lại trả về false
-      return result?.result === 'success';
+      // Sau khi CALL, thực hiện SELECT để lấy giá trị của biến OUT
+      const [selectResult]: any = await this.sequelize.query(`SELECT @p_result as result;`);
+
+      // Kiểm tra kết quả trả về từ biến OUT
+      return selectResult?.[0]?.result === 0;
     } catch (error) {
-      console.log('🚀 ~ UserPointService ~ deductPointGameByUser ~ error:', error);
+      console.log('🚀 ~ UserPointService ~ addPointToUser ~ error:', error);
+      // Nếu có lỗi xảy ra, trả về false
+      return false;
+    }
+  }
+
+  async addPointToUser(dto: { userId: number; gamePointId: number; points: number; type: number; description: string }) {
+    try {
+      // Thực hiện CALL để gọi stored procedure
+      await this.sequelize.query(`CALL add_money_by_user_game(:p_userId, :p_gameId, :p_points, :p_description, @p_result);`, {
+        replacements: { p_userId: dto.userId, p_gameId: dto.gamePointId, p_points: dto.points, p_description: dto.description },
+        type: 'RAW',
+      });
+
+      // Sau khi CALL, thực hiện SELECT để lấy giá trị của biến OUT
+      const [selectResult]: any = await this.sequelize.query(`SELECT @p_result as result;`);
+
+      // Kiểm tra kết quả trả về từ biến OUT
+      return selectResult?.[0]?.result === 0;
+    } catch (error) {
+      console.log('🚀 ~ UserPointService ~ addPointToUser ~ error:', error);
       // Nếu có lỗi xảy ra, trả về false
       return false;
     }
@@ -97,64 +106,70 @@ export class UserPointService {
   async addPointOrDeductToGameByName(dto: AddPointToGameDto) {
     if (!(dto.type >= 0) || !(dto.points > 0) || !dto.username || !dto.game) throw new Error(messageResponse.system.missingData);
     const [game, user] = await Promise.all([this.gamePointService.findOneBySlugAndSaveRedis(dto.game), this.userService.findOneByUsername(dto.username)]);
-    if (game) {
-      const gameId = game.id;
-      if (dto.type == TypeUpdatePointUser.down) {
-        return this.deductPointGameByUser(user.id, gameId, dto.points);
-      } else if (dto.type == TypeUpdatePointUser.up) {
-        return this.addPointToUser({
-          gamePointId: gameId,
-          points: dto.points,
-          type: 1,
-          userId: user.id,
-        });
-      }
+    if (!game) {
+      throw new Error('game_not_found');
     }
-    throw new Error('game_not_found');
+    if (!user) {
+      throw new Error('user_not_found');
+    }
+    const gameId = game.id;
+    if (dto.type == TypeUpdatePointUser.down) {
+      return this.deductPointGameByUser(user.id, gameId, dto.points, 'Trừ tiền vào tài khoản game qua API');
+    } else if (dto.type == TypeUpdatePointUser.up) {
+      return this.addPointToUser({
+        gamePointId: gameId,
+        points: dto.points,
+        type: 1,
+        userId: user.id,
+        description: 'Cộng tiền vào tài khoản game qua qua API',
+      });
+    }
   }
 
-  async movePointGameToMain(dto: MovePointToMainOrGame) {
-    if (!(dto.points > 0) || !dto.username || !dto.game) throw new Error(messageResponse.system.missingData);
-    const [game, user] = await Promise.all([this.gamePointService.findOneBySlugAndSaveRedis(dto.game), this.userService.findOneByUsername(dto.username)]);
-    if (game && user) {
-      const gameId = game.id;
-      const deductPoint = await this.deductPointGameByUser(user.id, gameId, dto.points);
-      if (deductPoint) {
-        const moveToMain = await this.ku6018Service.AddPointToMain(dto.username, dto.points);
-        if (moveToMain.status) {
-          return moveToMain.message;
-        }
-        throw new Error(moveToMain.message);
-      } else {
-        throw new Error(messageResponse.userPoint.accountNotHaveEnoughPoints);
-      }
-    }
-    throw new Error('game_or_user_not_found');
-  }
+  // async movePointGameToMain(dto: MovePointToMainOrGame) {
+  //   if (!(dto.points > 0) || !dto.username || !dto.game) throw new Error(messageResponse.system.missingData);
+  //   const [game, user] = await Promise.all([this.gamePointService.findOneBySlugAndSaveRedis(dto.game), this.userService.findOneByUsername(dto.username)]);
+  //   if (game && user) {
+  //     const gameId = game.id;
+  //     const deductPoint = await this.deductPointGameByUser(user.id, gameId, dto.points);
+  //     if (deductPoint) {
+  //       const moveToMain = await this.ku6018Service.AddPointToMain(dto.username, dto.points);
+  //       if (moveToMain.status) {
+  //         return moveToMain.message;
+  //       }
+  //       throw new Error(moveToMain.message);
+  //     } else {
+  //       throw new Error(messageResponse.userPoint.accountNotHaveEnoughPoints);
+  //     }
+  //   }
+  //   throw new Error('game_or_user_not_found');
+  // }
 
-  async movePointMainToGame(dto: MovePointToMainOrGame) {
-    if (!(dto.points > 0) || !dto.username || !dto.game) throw new Error(messageResponse.system.missingData);
-    const [game, user] = await Promise.all([this.gamePointService.findOneBySlugAndSaveRedis(dto.game), this.userService.findOneByUsername(dto.username)]);
-    if (game && user) {
-      const deductPoint = await this.ku6018Service.DeductPointInMain(dto.username, dto.points);
-      if (deductPoint.status) {
-        const addPointGame = await this.addPointToUser({
-          userId: user.id,
-          gamePointId: game.id,
-          points: dto.points,
-          type: TypeUpdatePointUser.up,
-        });
-        if (addPointGame) {
-          return 'transfer_point_success';
-        } else {
-          // refunds main when error
-          await this.ku6018Service.AddPointToMain(dto.username, dto.points);
-          throw new Error(messageResponse.userPoint.anErrorOccurred);
-        }
-      } else {
-        throw new Error(deductPoint.message);
-      }
-    }
-    throw new Error('game_or_user_not_found');
-  }
+  // 11111
+
+  // async movePointMainToGame(dto: MovePointToMainOrGame) {
+  //   if (!(dto.points > 0) || !dto.username || !dto.game) throw new Error(messageResponse.system.missingData);
+  //   const [game, user] = await Promise.all([this.gamePointService.findOneBySlugAndSaveRedis(dto.game), this.userService.findOneByUsername(dto.username)]);
+  //   if (game && user) {
+  //     const deductPoint = await this.ku6018Service.DeductPointInMain(dto.username, dto.points);
+  //     if (deductPoint.status) {
+  //       const addPointGame = await this.addPointToUser({
+  //         userId: user.id,
+  //         gamePointId: game.id,
+  //         points: dto.points,
+  //         type: TypeUpdatePointUser.up,
+  //       });
+  //       if (addPointGame) {
+  //         return 'transfer_point_success';
+  //       } else {
+  //         // refunds main when error
+  //         await this.ku6018Service.AddPointToMain(dto.username, dto.points);
+  //         throw new Error(messageResponse.userPoint.anErrorOccurred);
+  //       }
+  //     } else {
+  //       throw new Error(deductPoint.message);
+  //     }
+  //   }
+  //   throw new Error('game_or_user_not_found');
+  // }
 }
