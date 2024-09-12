@@ -6,24 +6,11 @@ export class RedisService {
   private readonly redis: Redis;
 
   constructor() {
-    const appId = process.env.APP_ID;
-    const redisSocketPath = process.env.REDDIS_SOCKET_PATH;
-
-    this.redis =
-      appId == 'production'
-        ? new Redis({
-            path: redisSocketPath,
-            retryStrategy: (times) => {
-              // Xác định chiến lược tự động thử lại
-              const delay = Math.min(times * 50, 2000);
-              return delay;
-            },
-          })
-        : new Redis({
-            host: process.env.HOST_REDIS,
-            password: process.env.PASSWORD_REDIS,
-            port: Number(process.env.PORT_REDIS),
-          });
+    this.redis = new Redis({
+      host: process.env.HOST_REDIS,
+      password: process.env.PASSWORD_REDIS,
+      port: Number(process.env.PORT_REDIS),
+    });
   }
 
   async set(key: string, value: string | number, secondsExpireTime?: number) {
